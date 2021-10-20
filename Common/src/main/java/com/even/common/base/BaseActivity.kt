@@ -3,7 +3,6 @@ package com.even.common.base
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
@@ -134,14 +133,10 @@ abstract class BaseActivity<VM : BaseViewModel, T : ViewDataBinding>
      * 申请悬浮窗权限
      */
     open fun requestOverlays() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(this)) {
-                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
-                intent.data = Uri.fromParts("package", this.packageName, null)
-                startActivityForResult(intent, REQ_OVERLAY_PERMISSION)
-            } else {
-                resultOverlaysPermission(true)
-            }
+        if (!Settings.canDrawOverlays(this)) {
+            val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+            intent.data = Uri.fromParts("package", this.packageName, null)
+            startActivityForResult(intent, REQ_OVERLAY_PERMISSION)
         } else {
             resultOverlaysPermission(true)
         }
@@ -162,7 +157,6 @@ abstract class BaseActivity<VM : BaseViewModel, T : ViewDataBinding>
     ) {
         if (REQ_PERMISSION_RECODE == requestCode) {
             val deniedLists = mutableListOf<String>()
-
             for (index in grantResults.indices) {
                 if (PackageManager.PERMISSION_DENIED == grantResults[index]) {
                     deniedLists.add(permissions[index])
@@ -179,14 +173,10 @@ abstract class BaseActivity<VM : BaseViewModel, T : ViewDataBinding>
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_OVERLAY_PERMISSION) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (Settings.canDrawOverlays(this)) {
-                    resultOverlaysPermission(true)
-                } else {
-                    resultOverlaysPermission(false)
-                }
-            } else {
+            if (Settings.canDrawOverlays(this)) {
                 resultOverlaysPermission(true)
+            } else {
+                resultOverlaysPermission(false)
             }
         }
     }

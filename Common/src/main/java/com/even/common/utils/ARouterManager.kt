@@ -1,4 +1,4 @@
-package com.even.common.base
+package com.even.common.utils
 
 import com.alibaba.android.arouter.facade.template.IProvider
 import com.alibaba.android.arouter.launcher.ARouter

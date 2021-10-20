@@ -1,9 +1,9 @@
 package com.even.common.utils
 
 import android.app.Application
-import android.util.Log
 import com.alibaba.android.arouter.launcher.ARouter
 import com.even.common.request.Api
+import com.even.common.request.OkHttpConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,7 +11,6 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 /**
  *  @author  Even
@@ -32,24 +31,20 @@ class InitUtils {
         ARouter.init(application)
     }
 
-
     fun initNetwork(hostUrl: String) {
-        //网络超时时间（秒）
-        val TIMEOUT = 30L
+        initNetwork(OkHttpConfig().build(), hostUrl)
+    }
 
-        val okBuilder = OkHttpClient.Builder()
-            .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .readTimeout(TIMEOUT, TimeUnit.SECONDS) //超时时间
-            .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .addInterceptor(HttpLoggingInterceptor { message ->
-                Timber.tag("Even").d(message)
-            }.also { it.level = HttpLoggingInterceptor.Level.BODY })
+    fun initNetwork(okhttpBuild: OkHttpClient.Builder = OkHttpConfig().build(), hostUrl: String) {
+        okhttpBuild.addInterceptor(HttpLoggingInterceptor { message ->
+            Timber.tag("Even").d(message)
+        }.also { it.level = HttpLoggingInterceptor.Level.BODY })
 
         val builder = Retrofit.Builder()
             .baseUrl(hostUrl)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-        Api.instance.init(okBuilder, builder)
+        Api.instance.init(okhttpBuild, builder)
     }
 }

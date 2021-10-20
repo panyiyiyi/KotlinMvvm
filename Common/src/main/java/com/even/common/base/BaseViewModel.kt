@@ -18,7 +18,7 @@ open class BaseViewModel : ViewModel() {
     val uiStatus = MutableLiveData<LoadStatus<Any>>()
 
     fun launchOnUI(block: suspend CoroutineScope.() -> Unit): Job {
-        return viewModelScope.launch { block() }
+        return viewModelScope.launch(Dispatchers.Main) { block() }
     }
 
     fun launchOnIO(block: suspend CoroutineScope.() -> Unit): Job {
