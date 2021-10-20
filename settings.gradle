@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "KotlinMvvm"
 include ':app'
+include ':Common'
