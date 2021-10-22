@@ -37,7 +37,7 @@ ext.versions = [
 
         // glide
         glideVersion        : '4.12.0',
-        glideTransformations: '4.3.0',
+
         
 
         // log
