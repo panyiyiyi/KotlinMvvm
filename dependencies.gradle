@@ -1,97 +1,74 @@
 ext.versions = [
         // gradle plugins
-        gradleBuildTool       : '7.0.1',
+        gradleBuildTool     : '7.0.1',
 
         // kotlin
-        kotlin                : '1.5.30',
+        kotlin              : '1.5.30',
 
         // support library
-        appcompatVersion      : '1.3.1',
-        materialVersion       : '1.4.0',
-        constraintVersion     : '2.1.0',
+        appcompatVersion    : '1.3.1',
+        materialVersion     : '1.4.0',
+        constraintVersion   : '2.1.0',
 
         // jetpack architecture components
-        ktxVersion            : '1.6.0',
-        activityVersion       : '1.3.1',
-        fragmentVersion       : '1.3.6',
-        lifecycleVersion      : '2.4.0-alpha03',
-        navigationVersion     : '2.3.5',
-        collectionVersion     : '1.1.0',
-        startupVersion        : '1.1.0',
-        viewpager2            : '1.0.0',
-        recyclerview          : '1.2.1',
+        ktxVersion          : '1.6.0',
+        activityVersion     : '1.3.1',
+        fragmentVersion     : '1.3.6',
+        lifecycleVersion    : '2.4.0-alpha03',
+        navigationVersion   : '2.3.5',
+        collectionVersion   : '1.1.0',
+        startupVersion      : '1.1.0',
+        viewpager2          : '1.0.0',
+        recyclerview        : '1.2.1',
 
         // network
-        retrofitVersion       : '2.9.0',
-        okhttpVersion         : '4.9.1',
+        retrofitVersion     : '2.9.0',
+        okhttpVersion       : '4.9.1',
 
         // moshi
-        moshiVersion          : '1.12.0',
+        moshiVersion        : '1.12.0',
 
         // coroutines
-        coroutinesVersion     : '1.5.1',
+        coroutinesVersion   : '1.5.1',
 
         // rxJava
-        rxjavaVersion         : '3.1.0',
-        rxandroidVersion      : '3.0.0',
+        rxjavaVersion       : '3.1.0',
+        rxandroidVersion    : '3.0.0',
 
         // glide
-        glideVersion          : '4.12.0',
-        glideTransformations  : '4.3.0',
-
-        // leakcanary
-        leakCanaryVersion     : '2.7',
+        glideVersion        : '4.12.0',
+        glideTransformations: '4.3.0',
+        
 
         // log
-        timberVersion         : '5.0.1',
+        timberVersion       : '5.0.1',
 
         //adapter
-        quickAdapterVersion   : '3.0.6',
+        quickAdapterVersion : '3.0.6',
 
         //smartRefresh layout
-        refreshLayoutVersion  : '2.0.3',
-        lottieVersion         : '4.1.0',
-
-        // circle image
-        circleimageviewVersion: '3.1.0',
-
-        // banner
-        banner                : '2.1.0',
+        refreshLayoutVersion: '2.0.3',
 
         // recyclerView
-        commonrv              : '2.2.0',
+        commonrv            : '2.2.0',
 
         // flowlayout
-        flowlayoutVersion     : '1.1.2',
+        flowlayoutVersion   : '1.1.2',
 
-        // jpush
-        jpushVersion          : '4.3.0',
-        jcoreVersion          : '2.9.2',
-
-        // growingio
-        growingioVersion      : 'autotrack-2.9.4',
-
-        // flex box
-        flexboxVersion        : '2.0.1',
 
         // unit test
-        junitVersion          : '4.13.2',
-        androidxTestJunit     : '1.1.3',
-        espressoVersion       : '3.4.0',
+        junitVersion        : '4.13.2',
+        androidxTestJunit   : '1.1.3',
+        espressoVersion     : '3.4.0',
 
-        //aviloadingView
-        aviVesrion            : '2.1.3',
 
         // eventbus
-        eventbusVersion       : '1.0.5.1',
+        eventbusVersion     : '1.0.5.1',
 
         //phoneview
-        photoviewVersion      : '1.4.1',
-
-        // jsoup
-        jsoupVersion          : '1.14.2',
+        photoviewVersion    : '1.4.1',
 
         // arouter
-        arouter               : '1.5.2',
+        arouter             : '1.5.2',
 
 ]
