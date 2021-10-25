@@ -10,10 +10,6 @@ import timber.log.Timber
  *  @date   2021/10/19
  */
 open class BaseApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-    }
-
     fun init(hostUrl: String, isDebug: Boolean) {
         Timber.plant(if (isDebug) Timber.DebugTree() else ReleaseTree())
         InitUtils.instance.initNetwork(hostUrl)

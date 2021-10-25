@@ -17,6 +17,12 @@ interface IStateView {
     )
 
     fun showEmpty()
+
     fun showContent()
+
+    /**
+     * 显示网络一次界面
+     *@param block 点击重试触发的逻辑
+     */
     fun showNetworkError(block: (() -> Unit)? = null)
 }
