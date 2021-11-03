@@ -108,20 +108,20 @@ abstract class BaseActivity<VM : BaseViewModel, T : ViewDataBinding>
         permissions: MutableList<String>,
         callBacks: OnPermissionCallBacks
     ) {
+        val refuseLists = mutableListOf<String>()
         this.permissionCallBacks = callBacks
         var isRequest = false
         permissions.forEach {
             if (ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED) {
                 //有一个没有通过就发起请求
                 isRequest = true
-            } else {
-                permissions.remove(it)
+                refuseLists.add(it)
             }
         }
         if (isRequest) {
             ActivityCompat.requestPermissions(
                 this,
-                permissions.toTypedArray(),
+                refuseLists.toTypedArray(),
                 REQ_PERMISSION_RECODE
             )
         } else {
@@ -155,6 +155,7 @@ abstract class BaseActivity<VM : BaseViewModel, T : ViewDataBinding>
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (REQ_PERMISSION_RECODE == requestCode) {
             val deniedLists = mutableListOf<String>()
             for (index in grantResults.indices) {
