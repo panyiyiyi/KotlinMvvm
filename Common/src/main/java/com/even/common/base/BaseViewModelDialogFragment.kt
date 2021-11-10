@@ -2,6 +2,9 @@ package com.even.common.base
 
 import android.os.Bundle
 import android.view.*
+import android.widget.LinearLayout
+import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
@@ -12,10 +15,14 @@ import java.lang.reflect.ParameterizedType
  *  @author  Even
  *  @date   2021/10/20
  */
-abstract class BaseViewModelDialogFragment<VM : BaseViewModel, T : ViewDataBinding> :
+abstract class BaseViewModelDialogFragment<VM : BaseViewModel, T : ViewDataBinding>(
+    @LayoutRes private val layoutId: Int,
+    private val variableId: Int
+) :
     DialogFragment() {
 
     lateinit var viewModel: VM
+    lateinit var dataBinding: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +53,33 @@ abstract class BaseViewModelDialogFragment<VM : BaseViewModel, T : ViewDataBindi
 //        window.setBackgroundDrawable(ColorDrawable())
         window?.setBackgroundDrawableResource(getLayoutBgDrawable())
         this.isCancelable = isCancelDialogOnOutSize()
+
+        dataBinding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
+        dataBinding.lifecycleOwner = this
+        dataBinding.setVariable(variableId, viewModel)
+
+        val view = if (userDefaultTitleBar()) {
+            //使用默认标题
+            val linearLayout = LinearLayout(requireContext())
+            linearLayout.addView(
+                getTitleBarView(), LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+            )
+            linearLayout.orientation = LinearLayout.VERTICAL
+            linearLayout.addView(
+                dataBinding.root, LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                )
+            )
+            linearLayout
+        } else {
+            //不使用默认标题
+            dataBinding.root
+        }
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -56,6 +90,16 @@ abstract class BaseViewModelDialogFragment<VM : BaseViewModel, T : ViewDataBindi
         val viewModelClass: Class<VM> = actualTypeArguments[0] as Class<VM>
         return ViewModelProvider(this)[viewModelClass]
     }
+
+    /**
+     * 是否使用默认标题栏，如果不使用，则重写此方法，返回false即可
+     */
+    open fun userDefaultTitleBar(): Boolean {
+        return true
+    }
+
+    //set title bar view
+    abstract fun getTitleBarView(): View
 
     abstract fun getLayoutBgDrawable(): Int
 

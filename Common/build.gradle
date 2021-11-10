@@ -92,8 +92,8 @@ dependencies {
     api "com.alibaba:arouter-api:$versions.arouter"
     kapt "com.alibaba:arouter-compiler:$versions.arouter"
 
-    implementation "com.squareup.moshi:moshi-kotlin:$versions.moshiVersion"
-    implementation "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshiVersion"
+    api "com.squareup.moshi:moshi-kotlin:$versions.moshiVersion"
+    api "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshiVersion"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshiVersion"
 
     // recyclerView封装
@@ -113,7 +113,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.even'
                 artifactId = 'common'
-                version = '1.0.12'
+                version = '1.0.15'
             }
         }
     }
