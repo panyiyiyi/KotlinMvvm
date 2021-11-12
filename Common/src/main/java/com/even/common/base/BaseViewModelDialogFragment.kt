@@ -9,6 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.even.common.R
+import com.even.commonrv.utils.DisplayUtil
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -79,8 +80,8 @@ abstract class BaseViewModelDialogFragment<VM : BaseViewModel, T : ViewDataBindi
             //不使用默认标题
             dataBinding.root
         }
-
-        return super.onCreateView(inflater, container, savedInstanceState)
+        initView()
+        return view
     }
 
     fun createViewModel(): VM {
@@ -90,6 +91,7 @@ abstract class BaseViewModelDialogFragment<VM : BaseViewModel, T : ViewDataBindi
         val viewModelClass: Class<VM> = actualTypeArguments[0] as Class<VM>
         return ViewModelProvider(this)[viewModelClass]
     }
+
 
     /**
      * 是否使用默认标题栏，如果不使用，则重写此方法，返回false即可
@@ -102,6 +104,8 @@ abstract class BaseViewModelDialogFragment<VM : BaseViewModel, T : ViewDataBindi
     abstract fun getTitleBarView(): View
 
     abstract fun getLayoutBgDrawable(): Int
+
+    abstract fun initView()
 
     /**
      * 点击外部区域能否取消
@@ -125,7 +129,7 @@ abstract class BaseViewModelDialogFragment<VM : BaseViewModel, T : ViewDataBindi
     open fun getHeightRate(): Int = WindowManager.LayoutParams.WRAP_CONTENT
 
     /**
-     * 设置弹窗宽度比例，默认是全屏
+     * 设置弹窗宽度比例，默认是全屏的0.75
      */
-    open fun getWidthRate(): Int = WindowManager.LayoutParams.MATCH_PARENT
+    open fun getWidthRate(): Int = (DisplayUtil.getScreenWidth() * 0.75).toInt()
 }
