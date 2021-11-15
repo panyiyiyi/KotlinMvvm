@@ -17,7 +17,7 @@ import retrofit2.HttpException
 inline fun <reified T : Any> BaseViewModel.coroutineCall(
     liveData: MutableLiveData<T>? = null,
     crossinline blockSuccess: (data: T?) -> Unit = {},
-    crossinline blockError: (errorCode: Int?, errorMsg: String?) -> Any? = { _, _ -> false },
+    crossinline blockError: (errorCode: String?, errorMsg: String?) -> Any? = { _, _ -> false },
     loadType: LoadType = LoadType.Normal,
     loadStr: String? = UiUtils.getString(R.string.common_loading),
     crossinline call: suspend () -> BaseResponseBean<T>
@@ -28,7 +28,7 @@ inline fun <reified T : Any> BaseViewModel.coroutineCall(
 inline fun <reified T> BaseViewModel.coroutineResultCall(
     liveData: MutableLiveData<T>? = null,
     crossinline blockSuccess: (data: BaseResponseBean<T>?) -> Unit = {},
-    crossinline blockError: (errorCode: Int?, errorMsg: String?) -> Any? = { _, _ -> false },
+    crossinline blockError: (errorCode: String?, errorMsg: String?) -> Any? = { _, _ -> false },
     loadType: LoadType = LoadType.Normal,
     loadStr: String? = UiUtils.getString(R.string.common_loading),
     crossinline call: suspend () -> BaseResponseBean<T>
@@ -46,10 +46,10 @@ inline fun <reified T> BaseViewModel.coroutineResponseCall(
     return launchOnIO {
         var response: BaseResponse<T>
         apiResultCall(null, {
-            response = if (it?.errorCode == 0) {
+            response = if (it?.code == "0") {
                 BaseResponse.Success(it.data)
             } else {
-                BaseResponse.Error(it?.errorCode, it?.errorMsg)
+                BaseResponse.Error(it?.code, it?.message)
             }
             liveData?.value = response
             blockResponse(response)
@@ -65,7 +65,7 @@ inline fun <reified T> BaseViewModel.coroutineResponseCall(
 suspend inline fun <reified T : Any> BaseViewModel.apiCall(
     liveData: MutableLiveData<T>? = null,
     crossinline blockSuccess: (data: T?) -> Unit = {},
-    crossinline blockError: (errorCode: Int?, errorMsg: String?) -> Any? = { _, _ -> false },
+    crossinline blockError: (errorCode: String?, errorMsg: String?) -> Any? = { _, _ -> false },
     loadType: LoadType = LoadType.Background,
     crossinline call: suspend () -> BaseResponseBean<T>,
 ): BaseResponse<T> {
@@ -87,13 +87,13 @@ suspend inline fun <reified T : Any> BaseViewModel.apiCall(
 suspend inline fun <reified T> BaseViewModel.apiResultCall(
     liveData: MutableLiveData<T>? = null,
     crossinline blockSuccess: (data: BaseResponseBean<T>?) -> Unit = {},
-    crossinline blockError: (errorCode: Int?, errorMsg: String?) -> Any? = { _, _ -> false },
+    crossinline blockError: (errorCode: String?, errorMsg: String?) -> Any? = { _, _ -> false },
     loadType: LoadType = LoadType.Background,
     crossinline call: suspend () -> BaseResponseBean<T>
 ): BaseResponse<BaseResponseBean<T>> {
     try {
         val response = call.invoke()
-        if (response.errorCode == 0) {
+        if (response.code == "0") {
             //请求成功
             liveData?.postValue(response.data)
             launchOnUI {
@@ -104,7 +104,7 @@ suspend inline fun <reified T> BaseViewModel.apiResultCall(
             }
             return BaseResponse.Success(response)
         } else {
-            return BaseResponse.Error(response.errorCode, response.errorMsg)
+            return BaseResponse.Error(response.code, response.message)
         }
     } catch (e: Exception) {
         launchOnUI {
@@ -116,7 +116,7 @@ suspend inline fun <reified T> BaseViewModel.apiResultCall(
             ToastUtils.showShort(e.message ?: "")//显示错误信息
         }
         return if (e is HttpException) {
-            BaseResponse.Error(e.code(), e.message())
+            BaseResponse.Error(e.code().toString(), e.message())
         } else {
             BaseResponse.Error(null, e.message)
         }

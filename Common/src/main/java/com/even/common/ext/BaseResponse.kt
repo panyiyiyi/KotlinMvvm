@@ -9,7 +9,7 @@ import kotlin.contracts.contract
  */
 sealed class BaseResponse<out T> {
     data class Success<out T>(val data: T?) : BaseResponse<T>()
-    data class Error(val code: Int?, val msg: String?) : BaseResponse<Nothing>()
+    data class Error(val code: String?, val msg: String?) : BaseResponse<Nothing>()
 }
 
 fun BaseResponse.Error.showToast() {

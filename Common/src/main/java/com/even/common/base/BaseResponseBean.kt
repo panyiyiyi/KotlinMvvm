@@ -8,7 +8,7 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class BaseResponseBean<T>(
-    val errorCode: Int?,
-    val errorMsg: String?,
+    val code: String?,
+    val message: String?,
     val data: T?,
 )
