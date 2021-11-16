@@ -131,5 +131,5 @@ abstract class BaseViewModelDialogFragment<VM : BaseViewModel, T : ViewDataBindi
     /**
      * 设置弹窗宽度比例，默认是全屏的0.75
      */
-    open fun getWidthRate(): Int = (DisplayUtil.getScreenWidth() * 0.75).toInt()
+    open fun getWidthRate(): Int = WindowManager.LayoutParams.MATCH_PARENT
 }
