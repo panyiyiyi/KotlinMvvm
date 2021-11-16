@@ -20,7 +20,7 @@ sealed class LoadStatus<out T : Any>(val loadType: LoadType = LoadType.Normal) {
     ) : LoadStatus<T>(loadType)
 
     class Error(
-        val code: Int? = null,
+        val code: String? = null,
         val message: String? = null,
         loadType: LoadType = LoadType.Normal
     ) : LoadStatus<Nothing>(loadType)

@@ -104,6 +104,14 @@ suspend inline fun <reified T> BaseViewModel.apiResultCall(
             }
             return BaseResponse.Success(response)
         } else {
+            launchOnUI {
+                if (loadType == LoadType.Normal) {
+                    uiStatus.value = LoadStatus.Error(response.code, response.message, loadType)
+                }
+                val blocker = blockError.invoke(response.code, response.message)
+                if ((blocker is Boolean && blocker) || loadType != LoadType.Normal) return@launchOnUI
+                ToastUtils.showShort(response.message ?: "")//显示错误信息
+            }
             return BaseResponse.Error(response.code, response.message)
         }
     } catch (e: Exception) {
