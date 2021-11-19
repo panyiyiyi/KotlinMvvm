@@ -19,12 +19,12 @@ fun View.setVisible(visible: Boolean) {
 
 @BindingAdapter("isSelect")
 fun View.setIsSelect(isSelect: Boolean) {
-    this.isSelected = isSelected
+    this.isSelected = isSelect
 }
 
 @BindingAdapter("isEnable")
 fun View.setEnable(isEnable: Boolean) {
-    this.isEnabled = isEnabled
+    this.isEnabled = isEnable
 }
 
 @BindingAdapter("bgColor")
